@@ -37,7 +37,9 @@ ALLOWED_HOSTS = [
     "localhost",
 ]
 
-
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 # Application definition
 
 INSTALLED_APPS = [
