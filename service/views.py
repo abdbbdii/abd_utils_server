@@ -6,6 +6,11 @@ from django.shortcuts import redirect
 
 
 def this(request):
+    """
+    ### Get the request data.
+    Path: service/this/
+    Method: GET/POST
+    """
     r = {
         "scheme": request.scheme,
         "path": request.path,
@@ -15,12 +20,12 @@ def this(request):
         "encoding": request.encoding,
         "path_info": request.path_info,
         "session": request.session.session_key,
-        # "session_data": {k: request.session[k] for k in request.session.keys()},
         "COOKIES": request.COOKIES,
         "method": request.method,
         "GET": request.GET,
         "POST": request.POST,
         "FILES": request.FILES,
+        "headers": {k: request.headers[k] for k in request.headers.keys()},
         "data": request.body.decode("utf-8"),
     }
     print(r)
@@ -29,8 +34,15 @@ def this(request):
 
 def trigger_workflow(request):
     """
-    - Trigger a GitHub workflow using the GitHub API.
-    - Example: http://localhost:8000/service/trigger-workflow?owner=abdbbdii&repo=abdbbdii&event=update-readme&redirect_uri=http://github.com/abdbbdii/abdbbdii
+    ### Trigger a GitHub workflow using the GitHub API.
+        - Path: service/trigger-workflow/
+        - Method: GET
+        - Query Parameters:
+            - `owner` The owner of the repository.
+            - `repo` The repository name.
+            - `event` The name of the event to trigger.
+            - `redirect_uri` The URL to redirect to after triggering the workflow.
+        - http://127.0.0.1:8000/service/trigger-workflow?owner=abdbbdii&repo=abdbbdii&event=update-readme&redirect_uri=http://github.com/abdbbdii/abdbbdii
     """
     REPO_OWNER = request.GET.get("owner", "abdbbdii")
     REPO_NAME = request.GET.get("repo", "abdbbdii")
