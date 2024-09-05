@@ -67,7 +67,7 @@ def trigger_workflow(request):
 
 def google_auth(request):
     try:
-        if request.GET:
+        if request.method == 'GET':
             data = json.loads(request.body.decode("utf-8"))
             if data.get("password") != appSettings.password:
                 return JsonResponse({"message": "Invalid password."}, status=403)
