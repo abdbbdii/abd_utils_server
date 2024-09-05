@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.urls.resolvers import URLResolver
 from django.urls import get_resolver, reverse, NoReverseMatch
 from django.utils.html import format_html

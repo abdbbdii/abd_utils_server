@@ -1,12 +1,10 @@
 import pickle
-import io
 import base64
 import json
 
 import google.auth.exceptions
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
-from googleapiclient.http import MediaIoBaseDownload
 from google_auth_oauthlib.flow import InstalledAppFlow
 
 from .appSettings import appSettings

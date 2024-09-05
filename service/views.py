@@ -1,3 +1,4 @@
+import json
 import os
 import requests
 
@@ -6,6 +7,7 @@ from django.shortcuts import redirect
 
 from .google_authentication import authenticate
 from .appSettings import appSettings
+
 
 
 def this(request):
@@ -65,7 +67,7 @@ def trigger_workflow(request):
 
 def google_auth(request):
     if request.GET:
-        data = request.body.decode("utf-8")
+        data = json.loads(request.body.decode("utf-8"))
         if data.get("password") != appSettings.password:
             return JsonResponse({"message": "Invalid password."}, status=403)
         try:
