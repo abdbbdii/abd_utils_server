@@ -3,14 +3,13 @@ import base64
 import json
 
 import google.auth.exceptions
-from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 
 from .appSettings import appSettings
 
 
-def authenticate(scopes):
+def authenticate(scopes, token):
     """
     Authenticates the user using OAuth2 credentials and returns the credentials object.
     """
@@ -44,7 +43,6 @@ def authenticate(scopes):
         print("Authenticating with Google...")
         flow = InstalledAppFlow.from_client_config(json.loads(appSettings.google_credentials), scopes)
         creds = flow.run_local_server(port=0)
-        appSettings.update("token_pickle_base64", base64.b64encode(pickle.dumps(creds)).decode("utf-8"))
         print("Authenticated and token stored successfully.")
 
-    return creds
+    return base64.b64encode(pickle.dumps(creds)).decode("utf-8")

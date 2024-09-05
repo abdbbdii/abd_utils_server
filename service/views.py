@@ -9,7 +9,6 @@ from .google_authentication import authenticate
 from .appSettings import appSettings
 
 
-
 def this(request):
     """
     ### Get the request data.
@@ -65,18 +64,16 @@ def trigger_workflow(request):
         print(response.text)
         return JsonResponse({"message": "Failed to trigger workflow!", "error": response.text}, status=500)
 
+
 def google_auth(request):
-    try:
-        if request.method == 'GET':
-            data = json.loads(request.body.decode("utf-8"))
-            if data.get("password") != appSettings.password:
-                return JsonResponse({"message": "Invalid password."}, status=403)
-            try:
-                google_creds = authenticate(data.get("scopes"))
-                return JsonResponse({"message": "Google authentication successful!", "google_creds": google_creds}, status=200)
-            except Exception as e:
-                return JsonResponse({"message": str(e)}, status=500)
-        else:
-            return JsonResponse({"message": "Invalid request."}, status=400)
-    except Exception as e:
-        return JsonResponse({"message": str(e.with_traceback())}, status=400)
+    if request.method == "GET":
+        data = json.loads(request.body.decode("utf-8"))
+        if data.get("password") != appSettings.password:
+            return JsonResponse({"message": "Invalid password."}, status=403)
+        try:
+            token_pickle_base64 = authenticate(data.get("scopes"))
+            return JsonResponse({"message": "Google authentication successful!", "token_pickle_base64": token_pickle_base64}, status=200)
+        except Exception as e:
+            return JsonResponse({"message": str(e)}, status=500)
+    else:
+        return JsonResponse({"message": "Invalid request."}, status=400)
