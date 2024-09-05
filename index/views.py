@@ -1,13 +1,14 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.urls.resolvers import URLResolver
 from django.urls import get_resolver, reverse, NoReverseMatch
 from django.utils.html import format_html
 
+
 def index(request):
-    def get_all_urls(urlpatterns, prefix=''):
+    def get_all_urls(urlpatterns, prefix=""):
         urls = []
         for url_pattern in urlpatterns:
-            if hasattr(url_pattern, 'name') and url_pattern.name:
+            if hasattr(url_pattern, "name") and url_pattern.name:
                 try:
                     path = reverse(url_pattern.name)
                     urls.append((url_pattern.name, path))
@@ -18,7 +19,6 @@ def index(request):
                 urls.extend(get_all_urls(url_pattern.url_patterns, new_prefix))
         return urls
 
-    # Get the root URL patterns
     resolver = get_resolver()
     all_urls = get_all_urls(resolver.url_patterns)
     url_list = "<h1>Index</h1><ul>"
