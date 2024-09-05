@@ -9,7 +9,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from .appSettings import appSettings
 
 
-def authenticate(scopes, token):
+def authenticate(scopes, token=None):
     """
     Authenticates the user using OAuth2 credentials and returns the credentials object.
     """
@@ -29,7 +29,7 @@ def authenticate(scopes, token):
 
     if creds and creds.valid:
         return token
-    
+
     elif creds and creds.expired and creds.refresh_token:
         try:
             print("Refreshing access token...")
@@ -43,6 +43,8 @@ def authenticate(scopes, token):
         print("Authenticating with Google...")
         flow = InstalledAppFlow.from_client_config(json.loads(appSettings.google_credentials), scopes)
         creds = flow.run_local_server(port=0)
+
         print("Authenticated and token stored successfully.")
+        print(base64.b64encode(pickle.dumps(creds)).decode("utf-8"))
 
     return base64.b64encode(pickle.dumps(creds)).decode("utf-8")

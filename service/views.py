@@ -71,8 +71,7 @@ def google_auth(request):
         if data.get("password") != appSettings.password:
             return JsonResponse({"message": "Invalid password."}, status=403)
         try:
-            token_pickle_base64 = authenticate(data.get("scopes"))
-            return JsonResponse({"message": "Google authentication successful!", "token_pickle_base64": token_pickle_base64}, status=200)
+            return JsonResponse({"message": "Google authentication successful!", "token_pickle_base64": authenticate(data.get("scopes"), data.get("token_pickle_base64"))}, status=200)
         except Exception as e:
             return JsonResponse({"message": str(e)}, status=500)
     else:
