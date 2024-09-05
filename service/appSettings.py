@@ -21,7 +21,6 @@ class AppSettings:
             settings_values[field.name] = value
         settings.save()
 
-        self.token_pickle_base64 = settings.token_pickle_base64
         self.google_credentials = settings.google_credentials
         self.created_at = settings.created_at
         self.password = settings.password
@@ -80,7 +79,6 @@ except ProgrammingError:
 
     class AppSettings:
         def __init__(self) -> None:
-            self.token_pickle_base64 = ""
             self.google_credentials = ""
             self.created_at = ""
             self.password = ""

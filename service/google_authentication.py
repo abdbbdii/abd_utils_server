@@ -20,7 +20,7 @@ def authenticate(scopes, token):
     print("Checking stored credentials...")
     creds = None
 
-    if token := appSettings.token_pickle_base64:
+    if token:
         try:
             creds = pickle.loads(base64.b64decode(token))
         except Exception as e:
@@ -28,12 +28,12 @@ def authenticate(scopes, token):
             creds = None
 
     if creds and creds.valid:
-        print("Using stored credentials.")
+        return token
+    
     elif creds and creds.expired and creds.refresh_token:
         try:
             print("Refreshing access token...")
             creds.refresh(Request())
-            appSettings.update("token_pickle_base64", base64.b64encode(pickle.dumps(creds)).decode("utf-8"))
             print("Token refreshed successfully.")
         except google.auth.exceptions.RefreshError:
             print("Token refresh failed. Starting new authentication flow...")
