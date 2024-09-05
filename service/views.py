@@ -79,4 +79,4 @@ def google_auth(request):
         else:
             return JsonResponse({"message": "Invalid request."}, status=400)
     except Exception as e:
-        return JsonResponse({"message": str(e.with_traceback)}, status=400)
+        return JsonResponse({"message": str(e.with_traceback())}, status=400)
